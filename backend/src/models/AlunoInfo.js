@@ -26,6 +26,28 @@ const AlunoInfo = sequelize.define('AlunoInfo', {
     type: DataTypes.STRING(14),
     allowNull: true
   },
+  telefone: {
+    type: DataTypes.STRING(20),
+    allowNull: true,
+    field: 'telefone'
+  },
+  cep: {
+    type: DataTypes.STRING(9),
+    allowNull: true,
+    field: 'cep'
+  },
+  status_cadastro: {
+    type: DataTypes.ENUM('PRE_CADASTRO', 'PAGAMENTO_PENDENTE', 'PAGAMENTO_CONFIRMADO', 'PLANO_ATRIBUIDO', 'ATIVO'),
+    defaultValue: 'PRE_CADASTRO',
+    allowNull: false,
+    field: 'status_cadastro'
+  },
+  status_pagamento: {
+    type: DataTypes.ENUM('PENDENTE', 'CONFIRMADO', 'CANCELADO'),
+    defaultValue: 'PENDENTE',
+    allowNull: false,
+    field: 'status_pagamento'
+  },
   data_nascimento: {
     type: DataTypes.DATE,
     allowNull: true

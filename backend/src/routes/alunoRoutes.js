@@ -10,6 +10,7 @@ const express = require('express');
 const router = express.Router();
 const alunoController = require('../controllers/alunoController');
 const { auth, adminOnly, ownProfileOrAdmin } = require('../middleware/auth');
+const authMiddleware = require('../middleware/auth');
 
 /**
  * @route   GET /api/alunos/test
@@ -90,5 +91,25 @@ router.post('/:id/definir-senha', auth, ownProfileOrAdmin('id'), alunoController
  * @param   {id} ID do aluno
  */
 router.post('/:id/gerar-senha', auth, adminOnly, alunoController.gerarSenha);
+
+/**
+ * ⚠️  ROTA CRÍTICA - NÃO ALTERAR SEM AUTORIZAÇÃO ⚠️
+ * 
+ * @route   POST /api/alunos/pre-cadastro
+ * @desc    Realiza pré-cadastro de aluno para integração com sistema de pagamentos
+ * @access  Público
+ * @body    {nome, email, emailConfirmacao, telefone, cpf}
+ * @returns {Object} Usuário criado e cliente Asaas
+ * 
+ * 🔒 ENDPOINT CRÍTICO:
+ * - Integração direta com Asaas (pagamentos)
+ * - Validação rigorosa de CPF (algoritmo Receita Federal)
+ * - Criação automática de cliente para pagamentos
+ * - Verificação de duplicatas no sistema
+ * 
+ * 📋 CONSULTE: backend/ENDPOINTS_CRITICOS.md
+ * 📞 CONTATO: Equipe de Desenvolvimento antes de qualquer alteração
+ */
+router.post('/pre-cadastro', alunoController.preCadastro);
 
 module.exports = router; 

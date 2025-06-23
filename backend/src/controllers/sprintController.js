@@ -85,24 +85,24 @@ exports.createSprint = async (req, res) => {
             SprintMestreId: sprintMestre.id,
             posicao: posicao
           });
-        })
+          })
       );
       
       // Adicionar as metas ao objeto de resposta para compatibilidade
       sprintMestre.metas = await Promise.all(metasMestresCriadas.map(async metaMestre => {
         const metaFormatada = {
-          id: metaMestre.id,
-          disciplina: metaMestre.disciplina,
-          tipo: metaMestre.tipo,
-          titulo: metaMestre.titulo,
-          comandos: metaMestre.comandos,
-          link: metaMestre.link,
-          relevancia: metaMestre.relevancia,
-          tempoEstudado: metaMestre.tempoEstudado,
-          desempenho: metaMestre.desempenho,
-          status: metaMestre.status,
-          totalQuestoes: metaMestre.totalQuestoes,
-          questoesCorretas: metaMestre.questoesCorretas,
+        id: metaMestre.id,
+        disciplina: metaMestre.disciplina,
+        tipo: metaMestre.tipo,
+        titulo: metaMestre.titulo,
+        comandos: metaMestre.comandos,
+        link: metaMestre.link,
+        relevancia: metaMestre.relevancia,
+        tempoEstudado: metaMestre.tempoEstudado,
+        desempenho: metaMestre.desempenho,
+        status: metaMestre.status,
+        totalQuestoes: metaMestre.totalQuestoes,
+        questoesCorretas: metaMestre.questoesCorretas,
           SprintId: sprintMestre.id,
           posicao: metaMestre.posicao
         };

@@ -19,6 +19,7 @@ import Disciplinas from '../pages/Disciplinas/Disciplinas';
 import CadastrarDisciplina from '../pages/CadastrarDisciplina/CadastrarDisciplina';
 import AlunoEstatisticas from '../pages/AlunoEstatisticas/AlunoEstatisticas';
 import PlanSprints from '../pages/PlanSprints/PlanSprints';
+import Checkout from '../pages/Checkout/Checkout';
 
 // Componente para rotas protegidas de administrador
 const AdminRoute = ({ children }) => {
@@ -64,6 +65,22 @@ const AppRoutes = () => {
         {/* Rotas públicas */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* === ROTAS DE PAGAMENTO === */}
+        {/* 
+         * Página de Checkout - Sistema de Pagamentos Asaas
+         * 
+         * TIPOS DE PLANOS DISPONÍVEIS:
+         * - Assinatura Mensal Recorrente (R$ 297,00/mês - sem parcelamento)
+         * - Pacote 3 Meses (R$ 282,15/mês × 3 = R$ 846,45 total - 5% desconto)
+         * - Pacote 6 Meses (R$ 267,30/mês × 6 = R$ 1.603,80 total - 10% desconto)
+         * 
+         * ROTA PÚBLICA - Permite novos clientes comprarem diretamente
+         */}
+        <Route
+          path="/checkout"
+          element={<Checkout />}
+        />
 
         {/* Rotas protegidas de administrador */}
         <Route

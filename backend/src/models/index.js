@@ -37,6 +37,14 @@ const PlanoMestre = require('./PlanoMestre');
 const SprintMestre = require('./SprintMestre');
 const MetaMestre = require('./MetaMestre');
 
+// Importar os modelos do Asaas
+const AsaasCliente = require('./AsaasCliente');
+const AsaasPagamento = require('./AsaasPagamento');
+const AsaasWebhookLog = require('./AsaasWebhookLog');
+
+// Importar Op do Sequelize para operadores
+const { Op } = require('sequelize');
+
 // Garante que os relacionamentos são estabelecidos
 console.log('Configurando relacionamentos entre modelos...');
 
@@ -147,6 +155,24 @@ Plano.belongsTo(PlanoMestre, {
 
 console.log('Relacionamentos configurados com sucesso!');
 
+// Definir as associações do Asaas
+AsaasCliente.belongsTo(Usuario, { foreignKey: 'idusuario' });
+
+// Relacionamento AsaasPagamento -> AsaasCliente (PK → PK)
+AsaasPagamento.belongsTo(AsaasCliente, {
+    foreignKey: 'idasaascliente',
+    targetKey: 'idasaascliente',
+    as: 'cliente'
+});
+
+// 🔮 FUTURE: Relacionamento inverso será implementado após feature do mentor
+// AsaasCliente.hasMany(AsaasPagamento, {
+//     foreignKey: 'idasaascliente',
+//     as: 'pagamentos'
+// });
+
+AsaasWebhookLog.belongsTo(AsaasPagamento, { foreignKey: 'idasaaspagamento' });
+
 // Exporte os modelos
 module.exports = {
   Plano,
@@ -165,5 +191,11 @@ module.exports = {
   // Modelos Mestre
   PlanoMestre,
   SprintMestre,
-  MetaMestre
+  MetaMestre,
+  AsaasCliente,
+  AsaasPagamento,
+  AsaasWebhookLog,
+  
+  // Operadores Sequelize
+  Op
 }; 

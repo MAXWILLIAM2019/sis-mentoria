@@ -1,0 +1,786 @@
+/* 
+ * Estilos para Página de Checkout - Sistema de Pagamentos Asaas
+ * 
+ * Design moderno e responsivo para os tipos de planos:
+ * - Assinatura Mensal Recorrente (R$ 297,00/mês)
+ * - Pacote 3 Meses (R$ 282,15/mês × 3 = R$ 846,45 total)
+ * - Pacote 6 Meses (R$ 267,30/mês × 6 = R$ 1.603,80 total)
+ * 
+ * CONTAINER 100% - SEM BARRAS DE ROLAGEM
+ */
+
+.checkout {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  height: 100%;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Container específico para cada etapa */
+.containerSelecaoPlano {
+  max-width: 1000px;
+}
+
+.containerDadosUsuario {
+  max-width: 600px;
+}
+
+.containerPagamento {
+  max-width: 600px;
+}
+
+.containerConfirmacao {
+  max-width: 600px;
+}
+
+/* Indicador de Progresso - COMPACTO */
+.progressoContainer {
+  background: #f8f9fa;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e9ecef;
+  border-radius: 12px 12px 0 0;
+}
+
+.progresso {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  position: relative;
+}
+
+.step span {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e9ecef;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.step.ativo span {
+  background: #007bff;
+  color: white;
+}
+
+.step.concluido span {
+  background: #28a745;
+  color: white;
+}
+
+.step label {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.step.ativo label,
+.step.concluido label {
+  color: #343a40;
+}
+
+/* Conectores entre steps - REDUZIDOS */
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 40px;
+  width: 40px;
+  height: 2px;
+  background: #e9ecef;
+  z-index: -1;
+}
+
+.step.concluido:not(:last-child)::after {
+  background: #28a745;
+}
+
+/* Mensagens - COMPACTAS */
+.erro {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin: 0.5rem 1.5rem;
+  border: 1px solid #f5c6cb;
+  font-size: 0.875rem;
+}
+
+.sucesso {
+  background: #d4edda;
+  color: #155724;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin: 0.5rem 1.5rem;
+  border: 1px solid #c3e6cb;
+  font-size: 0.875rem;
+}
+
+/* Seleção de Planos - LARGA (precisa de espaço para 3 cards) */
+.selecaoPlano {
+  padding: 0.25rem 1.5rem 1.75rem 1.5rem;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.selecaoPlano h2 {
+  font-size: 1.75rem;
+  color: #343a40;
+  margin-bottom: 0.125rem;
+  font-weight: 700;
+}
+
+.subtitulo {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.planosGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.planoCard {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.planoCard:hover {
+  border-color: #007bff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+}
+
+.planoCard.destaque {
+  border-color: #28a745;
+  background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.08);
+}
+
+.planoCard.destaque:hover {
+  border-color: #28a745;
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
+}
+
+.tagDestaque {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #28a745;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0 0 6px 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.planoIcone {
+  font-size: 2.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.planoCard h3 {
+  font-size: 1.125rem;
+  color: #343a40;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.planoDescricao {
+  color: #6c757d;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  font-size: 0.8rem;
+  flex: 1;
+}
+
+.precoContainer {
+  margin-bottom: 0.75rem;
+}
+
+.precoMensal {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 0.25rem;
+}
+
+.precoMensal span {
+  font-size: 0.8rem;
+  color: #6c757d;
+  font-weight: 400;
+}
+
+.precoTotal {
+  color: #343a40;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.desconto {
+  background: #28a745;
+  color: white;
+  padding: 0.125rem 0.5rem;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.btnSelecionar {
+  width: 100%;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.625rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnSelecionar:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.planoCard.destaque .btnSelecionar {
+  background: #28a745;
+}
+
+.planoCard.destaque .btnSelecionar:hover {
+  background: #1e7e34;
+}
+
+/* Dados do Usuário - COMPACTA (poucos campos) */
+.dadosUsuario {
+  padding: 1.5rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dadosUsuario h2 {
+  font-size: 1.375rem;
+  color: #212529;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.planoSelecionadoInfo {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  border: 2px dashed #81c784;
+  padding: 1rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  font-size: 0.9rem;
+  color: #2e7d32;
+  font-weight: 600;
+  text-align: center;
+}
+
+.planoSelecionadoInfo span {
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.planoSelecionadoInfo strong {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  flex: 1;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: relative;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: #212529;
+  font-size: 0.8rem;
+  margin-bottom: 0.125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.formGroup label::after {
+  content: '*';
+  color: #dc3545;
+  font-weight: 700;
+  margin-left: 0.125rem;
+}
+
+.formGroup input {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.825rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: #212529;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  background: #ffffff;
+}
+
+.formGroup input:valid {
+  border-color: #28a745;
+}
+
+.formGroup input::placeholder {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.formGroup input.error {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.formGroup .fieldError {
+  color: #dc3545;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+  font-weight: 500;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.btnVoltar {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.625rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btnVoltar:hover {
+  background: #545b62;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btnContinuar,
+.btnFinalizar {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 0.625rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 2;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+.btnContinuar:hover,
+.btnFinalizar:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btnFinalizar:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Pagamento - CÓPIA DO FORMULÁRIO DE DADOS */
+.pagamento {
+  padding: 1.5rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pagamento h2 {
+  font-size: 1.375rem;
+  color: #212529;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.resumoPedido {
+  background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+  border: 2px dashed #81c784;
+  padding: 1rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+  font-size: 0.9rem;
+  color: #2e7d32;
+  font-weight: 600;
+  text-align: center;
+}
+
+.resumoPedido h3 {
+  color: #2e7d32;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.resumoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  color: #2e7d32;
+  font-weight: 600;
+  line-height: 1.2;
+  width: 100%;
+}
+
+.resumoTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2e7d32;
+  line-height: 1.2;
+  width: 100%;
+  border-top: 1px solid #81c784;
+  padding-top: 0.125rem;
+  margin-top: 0.125rem;
+}
+
+.formasPagamento {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  flex: 1;
+}
+
+.formasPagamento h3 {
+  font-weight: 600;
+  color: #212529;
+  font-size: 0.8rem;
+  margin-bottom: 0.125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Título específico para dados do cartão */
+.form h3 {
+  font-weight: 600;
+  color: #212529;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.formaPagamentoCard {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.825rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+  color: #212529;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  margin-bottom: 0.25rem;
+}
+
+.formaPagamentoCard:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.formaPagamentoCard.selecionada {
+  border-color: #007bff;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.formaPagamentoIcone {
+  font-size: 1rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+.formaPagamentoInfo {
+  flex: 1;
+}
+
+.formaPagamentoInfo h4 {
+  color: #212529;
+  margin-bottom: 0;
+  font-size: 0.825rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.formaPagamentoInfo p {
+  color: #6c757d;
+  font-size: 0.825rem;
+  margin: 0;
+  line-height: 1.2;
+  font-style: italic;
+}
+
+.formaPagamentoRadio input {
+  width: 16px;
+  height: 16px;
+  accent-color: #007bff;
+}
+
+/* Confirmação - PEQUENA (apenas confirmação) */
+.confirmacao {
+  padding: 1.5rem;
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 450px;
+}
+
+.sucessoIcone {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.confirmacao h2 {
+  font-size: 1.5rem;
+  color: #28a745;
+  margin-bottom: 0.75rem;
+}
+
+.confirmacao p {
+  color: #6c757d;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.detalhesConfirmacao {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.detalhesConfirmacao p {
+  margin-bottom: 0.25rem;
+  color: #343a40;
+  font-size: 0.875rem;
+}
+
+.redirecionamento {
+  font-style: italic;
+  color: #6c757d !important;
+  font-size: 0.8rem !important;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .planosGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .planoCard {
+    height: auto;
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout {
+    padding: 0.5rem;
+  }
+  
+  .progresso {
+    gap: 1rem;
+  }
+  
+  .step:not(:last-child)::after {
+    width: 30px;
+    left: 25px;
+  }
+  
+  .selecaoPlano,
+  .dadosUsuario,
+  .pagamento,
+  .confirmacao {
+    padding: 1.5rem;
+  }
+  
+  .dadosUsuario {
+    max-width: none;
+  }
+  
+  .selecaoPlano h2 {
+    font-size: 1.375rem;
+  }
+  
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .formActions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .btnVoltar,
+  .btnContinuar,
+  .btnFinalizar {
+    flex: none;
+    width: 100%;
+  }
+  
+  .planoSelecionadoInfo {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .formaPagamentoCard {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .formaPagamentoIcone {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .progresso {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .step span {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+  
+  .step:not(:last-child)::after {
+    display: none;
+  }
+} 

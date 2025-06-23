@@ -33,7 +33,7 @@ O sistema trabalha com duas camadas distintas:
 3. **Configure variáveis de ambiente:**
    ```bash
    cp .env.example .env
-   # Edite as configurações do banco no .env
+   # Edite as configurações do banco e do Asaas no .env
    ```
 
 4. **Inicie o serviço:**
@@ -60,10 +60,34 @@ DB_NAME=sis_mentoria
 DB_USER=seu_usuario
 DB_PASS=sua_senha
 
+# Asaas
+ASAAS_API_KEY=sua_chave_api_asaas
+ASAAS_API_URL=https://sandbox.asaas.com/api/v3  # Sandbox
+# ASAAS_API_URL=https://api.asaas.com/api/v3    # Produção
+
 # Servidor
 PORT=3000
 NODE_ENV=development
 ```
+
+## 💳 Integração com Asaas
+
+O sistema utiliza o Asaas como gateway de pagamentos, oferecendo:
+
+### Funcionalidades
+- Assinatura recorrente mensal
+- Pacotes fechados de 3 ou 6 meses com parcelamento
+- Múltiplas formas de pagamento (PIX, Cartão, Boleto)
+- Webhook para atualização automática dos pagamentos
+
+### Modelos de Dados
+- **AsaasCliente**: Vincula usuário do sistema ao cliente no Asaas
+- **AsaasPagamento**: Controla pagamentos e assinaturas
+- **AsaasWebhookLog**: Registra eventos recebidos do Asaas
+
+### Dependências
+- `asaas-node`: SDK oficial do Asaas para Node.js
+- `axios`: Cliente HTTP para requisições à API do Asaas
 
 ## 📊 Modelos de Dados
 
