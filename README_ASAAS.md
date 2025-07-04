@@ -2952,3 +2952,154 @@ Caso você queira saber qual o tipo de cada campo e os retornos de ENUMs dispon�
 🚧
 - Com a entrada de novos produtos e funções dentro do Asaas, é possível que novos atributos sejam incluídos no Webhook. É muito importante que seu código esteja preparado para não gerar exceções caso o Asaas devolva novos atributos não tratados pela sua aplicação, pois isso poderá causar interrupção na fila de sincronização.
 - Enviaremos um e-mail e avisaremos em nosso Discord quando novos campos forem incluídos no Webhook. O disparo será feito para o e-mail de notificação definido nas configurações do webhook.
+
+### Eventos para verificar situação da conta
+
+Escute os eventos do Asaas para ter sua integração em dia.
+
+É possível utilizar webhook para que seu sistema seja notificado sobre alterações que ocorram na situação de contas. Os eventos que o Asaas notifica são:
+
+- ACCOUNT_STATUS_BANK_ACCOUNT_INFO_APPROVED - Conta bancária aprovada
+- ACCOUNT_STATUS_BANK_ACCOUNT_INFO_AWAITING_APPROVAL - Conta bancária está em análise
+- ACCOUNT_STATUS_BANK_ACCOUNT_INFO_PENDING - Conta bancária voltou para pendente
+- ACCOUNT_STATUS_BANK_ACCOUNT_INFO_REJECTED - Conta bancária reprovada
+- ACCOUNT_STATUS_COMMERCIAL_INFO_APPROVED - Informações comerciais aprovada
+- ACCOUNT_STATUS_COMMERCIAL_INFO_AWAITING_APPROVAL - Informações comerciais em análise
+- ACCOUNT_STATUS_COMMERCIAL_INFO_PENDING - Informações comerciais voltou para pendente
+- ACCOUNT_STATUS_COMMERCIAL_INFO_REJECTED - Informações comerciais reprovada
+- ACCOUNT_STATUS_DOCUMENT_APPROVED - Documentos aprovados
+- ACCOUNT_STATUS_DOCUMENT_AWAITING_APPROVAL - Documentos em análise
+- ACCOUNT_STATUS_DOCUMENT_PENDING - Documentos voltaram para pendente
+- ACCOUNT_STATUS_DOCUMENT_REJECTED - Documentos reprovados
+- ACCOUNT_STATUS_GENERAL_APPROVAL_APPROVED - Conta aprovada
+- ACCOUNT_STATUS_GENERAL_APPROVAL_AWAITING_APPROVAL - Conta em análise
+- ACCOUNT_STATUS_GENERAL_APPROVAL_PENDING - Conta voltou para pendente
+- ACCOUNT_STATUS_GENERAL_APPROVAL_REJECTED - Conta reprovada
+
+### Exemplo de JSON a ser recebido [POST]
+A notificação consiste em um POST contendo um JSON, conforme este exemplo:
+
+```json
+{
+    "id": "evt_05b708f961d739ea7eba7e4db318f621&368604920",
+    "event": "ACCOUNT_STATUS_COMMERCIAL_INFO_APPROVED",
+    "dateCreated": "2024-06-12 16:45:03",
+    "accountStatus": {
+        "id": "175027c1-029c-41e5-8b9a-e289b9788c33",
+        "commercialInfo": "APPROVED",
+        "bankAccountInfo": "APPROVED",
+        "documentation": "APPROVED",
+        "general": "APPROVED"
+    }
+}
+```
+
+👍 **Retorno do Webhook com tipagem e ENUMs**
+
+Caso você queira saber qual o tipo de cada campo e os retornos de ENUMs disponíveis, confira a resposta 200 no endpoint "Consultar situação cadastral da conta" na documentação.
+
+🚧
+Com a entrada de novos produtos e funções dentro do Asaas, é possível que novos atributos sejam incluídos no Webhook. É muito importante que seu código esteja preparado para não gerar exceções caso o Asaas devolva novos atributos não tratados pela sua aplicação, pois isso poderá causar interrupção na fila de sincronização.
+Enviaremos um e-mail e avisaremos em nosso Discord quando novos campos forem incluídos no Webhook. O disparo será feito para o e-mail de notificação definido nas configurações do webhook.
+
+### Eventos para Checkout
+
+Escute os eventos do Asaas para ter sua integração em dia.
+
+Os Webhooks são a melhor e mais segura forma de manter os dados da sua aplicação atualizados com os dados do Asaas. Você sempre receberá um novo evento quando o status do Webhook mudar.
+
+Como utilizar os webhooks do checkout:
+
+POST https://api.asaas.com/api/v3/webhooks
+header: access_token
+
+```json
+{  
+  "name": "teste",  
+  "url": "https://minha-url.com",  
+  "sendType": "SEQUENTIALLY",  
+  "email": "teste@teste.com",  
+  "enabled": true,  
+  "interrupted": false,  
+  "events": [  
+    "CHECKOUT_CREATED",  
+    "CHECKOUT_CANCELED",  
+    "CHECKOUT_EXPIRED",  
+    "CHECKOUT_PAID"  
+  ]  
+}
+```
+
+O endpoint de webhook do checkout é o mesmo utilizado para criação de webhook do Asaas e podemos encontrar mais informações na documentação padrão da API.
+
+A única mudança são os eventos do checkout, no body params da requisição deve ser adicionado os eventos que desejamos acompanhar:
+
+- CHECKOUT_CREATED - Checkout criado
+- CHECKOUT_CANCELED - Checkout cancelado
+- CHECKOUT_EXPIRED - Checkout expirado
+- CHECKOUT_PAID - Checkout pago
+
+Feita a configuração acima, o webhook do checkout passará a enviar requisições para a url configurada. Segue exemplo da requisição POST que será feita pelo webhook para a sua URL cadastrada:
+
+```json
+{  
+  "id": "evt_37260be8159d4472b4458d3de13efc2d&15370",  
+  "event": "CHECKOUT_CREATED",  
+  "dateCreated": "2024-10-31 18:07:47",  
+  "checkout": {  
+    "id": "2bd251f0-09b2-44ff-8a0c-a5cb29e5bbda",  
+    "link": null,  
+    "status": "ACTIVE",  
+    "minutesToExpire": 10,  
+    "billingTypes": [  
+      "MUNDIPAGG_CIELO"  
+    ],  
+    "chargeTypes": [  
+      "RECURRENT"  
+    ],  
+    "callback": {  
+      "cancelUrl": "https://google.com",  
+      "successUrl": "https://google.com",  
+      "expiredUrl": "https://google.com"  
+    },  
+    "items": [  
+      {  
+        "name": "teste2",  
+        "description": "teste",  
+        "quantity": 2,  
+        "value": 100  
+      },  
+      {  
+        "name": "teste2",  
+        "description": "teste2",  
+        "quantity": 2,  
+        "value": 100  
+      }  
+    ],  
+    "subscription": {  
+      "cycle": "MONTHLY",  
+      "nextDueDate": "2024-10-31T03:00:00+0000",  
+      "endDate": "2025-10-29T03:00:00+0000"  
+    },  
+    "installment": null,  
+    "split": [  
+      {  
+        "walletId": "c1ad713f-77fc-45b0-b734-b2ff9970d6d8",  
+        "fixedValue": 2,  
+        "percentualValue": null,  
+        "totalFixedValue": null  
+      },  
+      {  
+        "walletId": "c1ad713f-77fc-45b0-b734-b2ff9970d6d8",  
+        "fixedValue": null,  
+        "percentualValue": 2,  
+        "totalFixedValue": null  
+      }  
+    ],  
+    "customer": "cus_000000018936",  
+    "customerData": null  
+  }  
+}
+```
+
+</rewritten_file>
