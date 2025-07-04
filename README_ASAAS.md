@@ -1,3 +1,10 @@
+> **ATENÇÃO:**
+> Este é o documento oficial e completo da integração com a API Asaas.
+> Ele serve como base para a documentação modular localizada em `docs/asaas/`.
+> **Não altere este conteúdo sem aviso prévio!**
+> Toda a documentação modular está atualizada e fiel a este arquivo.
+> Para consultar a versão modularizada, acesse a pasta `docs/asaas/`.
+
 # Integração com API Asaas – Guia Rápido
 
 ## Introdução
