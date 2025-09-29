@@ -1,0 +1,81 @@
+{
+  "compilerOptions": {
+    /* Configurações Básicas */
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    
+    /* Configurações de Output */
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "removeComments": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    
+    /* Configurações de Módulos */
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    
+    /* Configurações de Tipos */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    
+    /* Configurações de Verificação */
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "exactOptionalPropertyTypes": true,
+    
+    /* Configurações de Emissão */
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": false,
+    
+    /* Configurações de Paths (para futuras melhorias) */
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@/models/*": ["models/*"],
+      "@/controllers/*": ["controllers/*"],
+      "@/routes/*": ["routes/*"],
+      "@/middleware/*": ["middleware/*"],
+      "@/services/*": ["services/*"],
+      "@/jobs/*": ["jobs/*"],
+      "@/types/*": ["types/*"]
+    }
+  },
+  
+  /* Arquivos e Pastas Incluídos */
+  "include": [
+    "src/**/*",
+    "src/**/*.ts",
+    "src/**/*.js"
+  ],
+  
+  /* Arquivos e Pastas Excluídos */
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "coverage",
+    "*.log"
+  ],
+  
+  /* Configurações Específicas do Projeto */
+  "ts-node": {
+    "esm": false,
+    "experimentalSpecifierResolution": "node"
+  }
+}
+

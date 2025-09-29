@@ -7,13 +7,10 @@
  */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const Administrador = require('../models/Administrador');
-const Aluno = require('../models/Aluno');
+const { Administrador } = require('../models');
 const { Op } = require('sequelize');
-const Usuario = require('../models/Usuario');
-const GrupoUsuario = require('../models/GrupoUsuario');
-const AlunoInfo = require('../models/AlunoInfo');
-const AdministradorInfo = require('../models/AdministradorInfo');
+const { Usuario, GrupoUsuario, AlunoInfo } = require('../models');
+const { AdministradorInfo } = require('../models');
 
 /**
  * Configurações de autenticação
